@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { Accordion, Block } from 'galio-framework';
+import LoginPage from "./Pages/Login"
 
 
 export default function App() {
@@ -18,20 +19,12 @@ export default function App() {
   ];
   
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="auto" />
-      <Block style={{ height: 200 }}>
-        <Accordion dataArray={data} />
-      </Block>
-    </SafeAreaView>
+      <LoginPage/>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'dodgerblue',
-    alignItems: "center",
-    justifyContent: "center"
+    
   },
 });
