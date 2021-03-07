@@ -8,13 +8,31 @@ import {
   View,
   Image,
   TextInput,
-  Button,
   TouchableOpacity,
 } from 'react-native';
 
+import { Button } from 'galio-framework';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default function App() {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [gender, setGender] = useState('');
+  const [age, setAge] = useState('');
+  const [submit1, setSubmit] = useState('');
+
+  const submit = async () => {
+    const info = {
+      name, phone, email, gender, age,
+    };
+    try {
+      const jsonValue = JSON.stringify(info);
+      await AsyncStorage.setItem('info', jsonValue);
+    } catch (e) {
+      // saving error
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -24,29 +42,62 @@ export default function App() {
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
-          placeholder="Email."
+          placeholder="Full Name"
           placeholderTextColor="#003f5c"
-          onChangeText={(email) => setEmail(email)}
+          onChangeText={(e) => setName(e)}
         />
       </View>
 
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
-          placeholder="Password."
+          placeholder="Phone Number"
           placeholderTextColor="#003f5c"
-          secureTextEntry
-          onChangeText={(password) => setPassword(password)}
+          keyboardType="numeric"
+          onChangeText={(e) => setPhone(e)}
         />
       </View>
 
-      <TouchableOpacity>
-        <Text style={styles.forgot_button}>Forgot Password?</Text>
-      </TouchableOpacity>
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Email id"
+          placeholderTextColor="#003f5c"
+          keyboardType="email-address"
+          onChangeText={(e) => setEmail(e)}
+        />
+      </View>
 
-      <TouchableOpacity style={styles.loginBtn}>
-        <Text style={styles.loginText}>LOGIN</Text>
-      </TouchableOpacity>
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Age"
+          placeholderTextColor="#003f5c"
+          keyboardType="numeric"
+          onChangeText={(e) => setAge(e)}
+        />
+      </View>
+
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Gender"
+          placeholderTextColor="#003f5c"
+          onChangeText={(e) => setGender(e)}
+        />
+      </View>
+
+      <Button
+        style={styles.loginBtn}
+        onPress={() => {
+          submit();
+        }}
+        round
+        uppercase
+        color="error"
+      >
+        Create New Account
+      </Button>
     </View>
   );
 }
@@ -64,7 +115,7 @@ const styles = StyleSheet.create({
   },
 
   inputView: {
-    backgroundColor: '#FFC0CB',
+    backgroundColor: '#42b6f5',
     borderRadius: 30,
     width: '70%',
     height: 45,
@@ -77,7 +128,7 @@ const styles = StyleSheet.create({
     height: 50,
     flex: 1,
     padding: 10,
-    marginLeft: 20,
+    marginLeft: 5,
   },
 
   forgot_button: {
@@ -89,9 +140,10 @@ const styles = StyleSheet.create({
     width: '80%',
     borderRadius: 25,
     height: 50,
+    fontWeight: '900',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 40,
-    backgroundColor: '#FF1493',
+    backgroundColor: '#4285F4',
   },
 });

@@ -1,33 +1,28 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet, Text, View, SafeAreaView,
 } from 'react-native';
-import { Accordion, Block } from 'galio-framework';
+import { Accordion, Block, Button } from 'galio-framework';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginPage from './Pages/Login';
+import Dashboard from './Pages/Dashboard';
 
 export default function App() {
-  const data = [
-    {
-      title: 'First Chapter',
-      content: 'Lorem ipsum dolor sit amet',
-      icon: {
-        name: 'keyboard-arrow-up',
-        family: 'material',
-        size: 16,
-      },
-    },
-    { title: '2nd Chapter', content: 'Lorem ipsum dolor sit amet' },
-    { title: '3rd Chapter', content: 'Lorem ipsum dolor sit amet' },
-  ];
+  const [info, setInfo] = useState();
+
+  const getInfo = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('info');
+      console.log(jsonValue);
+      setInfo(jsonValue);
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+      // error reading value
+    }
+  };
 
   return (
     <LoginPage />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-
-  },
-});
